@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Database": {
+      "commandName": "Project"
+    },
+    "Профиль 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\yomak\\source\\repos\\Database\\API\\bin\\Debug\\net10.0\\API.exe",
+      "nativeDebugging": true
+    }
+  }
+}

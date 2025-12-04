@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Bot/">
+    <Project Path="Bot/BotStartupProject/BotStartupProject.csproj" />
+    <Project Path="Bot/TelegramBot/TelegramBot.csproj" Id="cb038299-bcfb-42f9-923c-09768bc5b757" />
+  </Folder>
+  <Folder Name="/Server/">
+    <Project Path="Server/API/API.csproj" />
+    <Project Path="Server/BLL/BLL.csproj" />
+    <Project Path="Server/DAL/DAL.csproj" />
+  </Folder>
+</Solution>
