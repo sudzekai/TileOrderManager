@@ -1,5 +1,5 @@
 ﻿using TelegramBot;
-using TelegramBot.AppErrorHandler;
+using TelegramBot.Tools.AppErrorHandler;
 
 namespace BotStartupProject
 {
@@ -33,6 +33,20 @@ namespace BotStartupProject
 
             TileOrderBot bot = new(Environment.GetEnvironmentVariable("TILE_ORDER_MANAGER_BOT_TOKEN"));
 
+            while (true)
+            {
+                Console.WriteLine($"{new string('=', 100)}\nМеню:\nВыкл бота: 0\nВкл/Выкл логов ({(BotLogger.IsBasicLogEnabled ? "Включены" : "Выключены")}): 1\n{new string('=', 100)}");
+                var query = Console.ReadLine();
+
+                if (query.Equals("0"))
+                {
+                    Environment.Exit(0);
+                }
+                else if (query.Equals("1"))
+                {
+                    BotLogger.IsBasicLogEnabled = !BotLogger.IsBasicLogEnabled;
+                }
+            }
         }
     }
 }
