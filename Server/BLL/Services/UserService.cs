@@ -25,10 +25,10 @@ namespace BLL.Services
             return [.. users.Select(u => u.ToDto<User, UserListDto>())];
         }
 
-        public async Task<UserFullDto> GetUserFullByIdAsync(long id)
+        public async Task<UserFullDto> GetByIdAsync(long id)
             => await GetUserByIdAsync<UserFullDto>(id);
 
-        public async Task<UserInfoDto> GetUserInfoByIdAsync(long id)
+        public async Task<UserInfoDto> GetInfoByIdAsync(long id)
             => await GetUserByIdAsync<UserInfoDto>(id);
 
         public async Task<UserChatInfoDto> GetUserChatInfoByIdAsync(long id)
