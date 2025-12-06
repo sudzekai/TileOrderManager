@@ -38,7 +38,7 @@ namespace BLL.Services
             return true;
         }
 
-        public async Task<TileFullDto> GetTileFullByIdAsync(int id)
+        public async Task<TileFullDto> GetByIdAsync(int id)
         {
             var tile = await _uow.Tiles.GetByIdAsync(id);
 
