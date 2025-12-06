@@ -17,5 +17,7 @@
 
         SimpleOrdering = 3,
         Ordering = 4,
+
+        UserInfoEditing = 5,
     }
 }
