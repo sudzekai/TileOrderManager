@@ -2,7 +2,7 @@
 {
     public static class EnumExtensions
     {
-        public static string ToString(this OrderStatus status)
+        public static string ToLocalizedString(this OrderStatus status)
             => status switch
             {
                 OrderStatus.Pending => "Ожидает принятия",
@@ -16,7 +16,7 @@
                 _ => "Не определён"
             };
 
-        public static string ToString(this UserRole role)
+        public static string ToLocalizedString(this UserRole role)
             => role switch
             {
                 UserRole.User => "Пользователь",
@@ -27,7 +27,7 @@
                 _ => "Не определена"
             };
 
-        public static string ToString(this DialogType type)
+        public static string ToLocalizedString(this DialogType type)
             => type switch
             {
                 DialogType.None => "Отсутствует",
