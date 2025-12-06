@@ -1,4 +1,5 @@
 ﻿using BLL.DTO.Objects.User.Create;
+using BLL.DTO.Objects.User.Special;
 using BLL.DTO.Objects.User.Update;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,20 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int? page)
         {
             try
             {
                 var users = await _service.GetUsersAsync();
+
+                if (page.HasValue)
+                {
+                    var pagedUsers = users.Skip((page.Value - 1) * 5)
+                                          .Take(5)
+                                          .ToList();
+                    return Ok(pagedUsers);
+                }
+
                 return Ok(users);
             }
             catch (Exception ex)
@@ -35,7 +45,7 @@ namespace API.Controllers
         {
             try
             {
-                var user = await _service.GetUserFullByIdAsync(id);
+                var user = await _service.GetByIdAsync(id);
                 return Ok(user);
             }
             catch (Exception ex)
@@ -49,7 +59,7 @@ namespace API.Controllers
         {
             try
             {
-                var user = await _service.GetUserInfoByIdAsync(id);
+                var user = await _service.GetInfoByIdAsync(id);
                 return Ok(user);
             }
             catch (Exception ex)
@@ -88,6 +98,34 @@ namespace API.Controllers
 
         [HttpPut("{id}/update")]
         public async Task<IActionResult> PutUser(long id, UserUpdateDto user)
+        {
+            try
+            {
+                var result = await _service.UpdateUserAsync(id, user);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/info/update")]
+        public async Task<IActionResult> PutUserInfo(long id, UserInfoDto user)
+        {
+            try
+            {
+                var result = await _service.UpdateUserAsync(id, user);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/chat-info/update")]
+        public async Task<IActionResult> PutUserChatInfo(long id, UserChatInfoDto user)
         {
             try
             {

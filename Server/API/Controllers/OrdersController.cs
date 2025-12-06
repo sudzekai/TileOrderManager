@@ -1,6 +1,7 @@
 ﻿using BLL.DTO.Objects.Order.Create;
 using BLL.DTO.Objects.Order.Update;
 using BLL.Services.Interfaces;
+using DAL.EfCore.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -17,11 +18,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int? page)
         {
             try
             {
                 var orders = await _service.GetOrdersAsync();
+
+                if (page.HasValue)
+                {
+                    var pagedOrders = orders.Skip((page.Value - 1) * 5)
+                                        .Take(5)
+                                        .ToList();
+                    return Ok(pagedOrders);
+                }
                 return Ok(orders);
             }
             catch (Exception ex)
@@ -31,11 +40,19 @@ namespace API.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetUserOrders(long userId)
+        public async Task<IActionResult> GetUserOrders(long userId, [FromQuery] int? page)
         {
             try
             {
                 var orders = await _service.GetUserOrdersAsync(userId);
+
+                if (page.HasValue)
+                {
+                    var pagedOrders = orders.Skip((page.Value - 1) * 5)
+                                        .Take(5)
+                                        .ToList();
+                    return Ok(pagedOrders);
+                }
                 return Ok(orders);
             }
             catch (Exception ex)
@@ -45,11 +62,19 @@ namespace API.Controllers
         }
 
         [HttpGet("tile/{tileId}")]
-        public async Task<IActionResult> GetUserOrders(int tileId)
+        public async Task<IActionResult> GetUserOrders(int tileId, [FromQuery] int? page)
         {
             try
             {
                 var orders = await _service.GetTileOrdersAsync(tileId);
+
+                if (page.HasValue)
+                {
+                    var pagedOrders = orders.Skip((page.Value - 1) * 5)
+                                        .Take(5)
+                                        .ToList();
+                    return Ok(pagedOrders);
+                }
                 return Ok(orders);
             }
             catch (Exception ex)

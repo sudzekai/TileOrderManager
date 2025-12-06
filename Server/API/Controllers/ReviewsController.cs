@@ -16,11 +16,20 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetReviews()
+        public async Task<IActionResult> GetReviews([FromQuery] int? page)
         {
             try
             {
                 var reviews = await _service.GetSimpleReviewsAsync();
+
+                if (page.HasValue)
+                {
+                    var pagedReviews = reviews.Skip((page.Value - 1) * 5)
+                                          .Take(5)
+                                          .ToList();
+                    return Ok(pagedReviews);
+                }
+
                 return Ok(reviews);
             }
             catch (Exception ex)

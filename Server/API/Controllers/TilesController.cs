@@ -2,6 +2,7 @@
 using BLL.DTO.Objects.Tile.Update;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -17,11 +18,21 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTiles()
+        public async Task<IActionResult> GetTiles([FromQuery] int? page)
         {
             try
             {
                 var tiles = await _service.GetTilesAsync();
+
+                if (page.HasValue)
+                {
+                    var pagedTiles = tiles
+                        .Skip((page.Value - 1) * 5)
+                        .Take(5)
+                        .ToList();
+                    return Ok(pagedTiles);
+                }
+                
                 return Ok(tiles);
             }
             catch (Exception ex)
@@ -35,7 +46,7 @@ namespace API.Controllers
         {
             try
             {
-                var tile = await _service.GetTileFullByIdAsync(id);
+                var tile = await _service.GetByIdAsync(id);
                 return Ok(tile);
             }
             catch (Exception ex)
