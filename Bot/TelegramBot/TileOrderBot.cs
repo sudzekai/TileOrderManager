@@ -2,8 +2,10 @@
 using System.Text.Json;
 using System.Text.Unicode;
 using Telegram.Bot;
-using TelegramBot.APIServices;
-using TelegramBot.AppErrorHandler;
+using TelegramBot.Tools.APIServices;
+using TelegramBot.Tools.AppErrorHandler;
+using TelegramBot.Tools.BotHandlers.Container;
+using TelegramBot.Types.Messages;
 
 namespace TelegramBot
 {
@@ -11,7 +13,8 @@ namespace TelegramBot
     {
         private readonly TelegramBotClient _bot;
 
-        private readonly ServicesContainer service;
+        private readonly ApiServicesContainer _services;
+        private readonly HandlersContainer handlers;
 
         public TileOrderBot(string token)
         {
@@ -19,22 +22,33 @@ namespace TelegramBot
 
             _bot = new TelegramBotClient(token);
 
-            service = new(new());
+            _services = new(new());
+
+            handlers = new(_bot, _services);
+
+            _bot.OnMessage += handlers.Messages.OnMessage;
+            _bot.OnUpdate += handlers.Updates.OnUpdate;
+            _bot.OnError += handlers.Errors.OnError;
+
+            var responce = _bot.GetMe();
+            var botInfo = responce.Result;
 
             TestApi().Wait();
+
+            BotLogger.SendInfo($"Бот запущен\nИмя: {botInfo.FirstName ?? ""} {botInfo.LastName ?? ""}\nId: {botInfo.Id}\nURL: https://t.me/{botInfo.Username}");
         }
 
         public async Task TestApi()
         {
-            var users = await service.Users.GetAllAsync();
-            var orders = await service.Orders.GetAllAsync();
-            var reviews = await service.Reviews.GetAllAsync();
-            var tiles = await service.Tiles.GetAllAsync();
+            var users = await _services.Users.GetAllAsync(1);
+            var orders = await _services.Orders.GetAllAsync(1);
+            var reviews = await _services.Reviews.GetAllAsync(1);
+            var tiles = await _services.Tiles.GetAllAsync(1);
 
-            var createdUser = await service.Users.CreateAsync(new(543226, "verycoolusername"));
-            var createdTile = await service.Tiles.CreateAsync(new("Крутая брусчатка", 1000, "Крутое описание"));
-            var createdOrder = await service.Orders.CreateAsync(createdUser.Id, new(createdTile.Id, 100, "Адрес заказчика", createdTile.Price * 100));
-            var createdReview = await service.Reviews.CreateAsync(createdUser.Id, new(createdOrder.Id, "Ну вроде круто", "Реально неплохо, сервис хороший, мне понравилось", 10));
+            var createdUser = await _services.Users.CreateAsync(new(535125343226, "verycoolusername"));
+            var createdTile = await _services.Tiles.CreateAsync(new("Крутая брусчатка", 1000, "Крутое описание"));
+            var createdOrder = await _services.Orders.CreateAsync(createdUser.Id, new(createdTile.Id, 100, "Адрес заказчика", createdTile.Price * 100));
+            var createdReview = await _services.Reviews.CreateAsync(createdUser.Id, new(createdOrder.Id, "Ну вроде круто", "Реально неплохо, сервис хороший, мне понравилось", 10));
 
 
             JsonSerializerOptions options = new() { WriteIndented = true, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic) };
