@@ -1,5 +1,6 @@
 ﻿using BLL.DTO.Interfaces.Special;
 using BLL.DTO.Interfaces.Update;
+using BLL.DTO.Types.Enums;
 
 namespace BLL.DTO.Objects.User.Special
 {
@@ -11,11 +12,14 @@ namespace BLL.DTO.Objects.User.Special
 
         public int? LastMessageId { get; set; }
 
+        public DialogType? DialogType { get; set; }
+
         public void FromModel(DAL.EfCore.Models.User model)
         {
             Step = model.Step;
             TileId = model.TileId;
             LastMessageId = model.LastMessageId;
+            DialogType = (DialogType)model.DialogType;
         }
 
         public void UpdateModel(DAL.EfCore.Models.User model)
@@ -28,6 +32,9 @@ namespace BLL.DTO.Objects.User.Special
 
             if (LastMessageId.HasValue)
                 model.LastMessageId = LastMessageId;
+
+            if (DialogType.HasValue)
+                model.DialogType = (int)DialogType;
         }
     }
 }
