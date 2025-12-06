@@ -9,7 +9,7 @@ namespace BLL.Services.Interfaces
     {
         Task<List<TileListDto>> GetTilesAsync();
 
-        Task<TileFullDto> GetTileFullByIdAsync(int id);
+        Task<TileFullDto> GetByIdAsync(int id);
 
         Task<TileFullDto> CreateTileAsync(ICreateDto<Tile> tile);
 
