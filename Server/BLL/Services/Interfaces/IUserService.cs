@@ -10,9 +10,9 @@ namespace BLL.Services.Interfaces
     {
         Task<List<UserListDto>> GetUsersAsync();
 
-        Task<UserFullDto> GetUserFullByIdAsync(long id);
+        Task<UserFullDto> GetByIdAsync(long id);
 
-        Task<UserInfoDto> GetUserInfoByIdAsync(long id);
+        Task<UserInfoDto> GetInfoByIdAsync(long id);
 
         Task<UserChatInfoDto> GetUserChatInfoByIdAsync(long id);
 
