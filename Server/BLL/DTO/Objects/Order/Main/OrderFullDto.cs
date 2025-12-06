@@ -1,4 +1,5 @@
 ﻿using BLL.DTO.Interfaces.Main;
+using BLL.DTO.Types.Enums;
 
 namespace BLL.DTO.Objects.Order.Main
 {
@@ -14,7 +15,7 @@ namespace BLL.DTO.Objects.Order.Main
 
         public string Address { get; set; } = null!;
 
-        public int Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         public decimal TotalPrice { get; set; }
 
@@ -25,7 +26,7 @@ namespace BLL.DTO.Objects.Order.Main
             TileId = model.TileId;
             Amount = model.Amount;
             Address = model.Address;
-            Status = model.Status;
+            Status = (OrderStatus)model.Status;
             TotalPrice = model.TotalPrice;
         }
     }
