@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Nominatim.API" Version="2.1.0" />
     <PackageReference Include="Telegram.Bot" Version="22.7.5" />
   </ItemGroup>
 
