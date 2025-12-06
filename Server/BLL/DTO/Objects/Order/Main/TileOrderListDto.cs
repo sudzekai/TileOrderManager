@@ -3,7 +3,7 @@ using BLL.DTO.Types.Enums;
 
 namespace BLL.DTO.Objects.Order.Main
 {
-    public class TileOrderListDto : IListDto<DAL.EfCore.Models.Order>
+    public class TileOrderListDto : OrderListBase, IListDto<DAL.EfCore.Models.Order>
     {
         public int Id { get; set; }
         public long UserId { get; set; }
