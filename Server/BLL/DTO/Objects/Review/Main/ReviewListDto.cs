@@ -8,8 +8,11 @@ namespace BLL.DTO.Objects.Review.Main
         public int OrderId { get; set; }
         public long UserId { get; set; }
 
+        public string Title { get; set; }
+
         public void FromModel(DAL.EfCore.Models.Review model)
         {
+            Title = model.Title;
             Id = model.Id;
             OrderId = model.OrderId;
             UserId = model.UserId;
